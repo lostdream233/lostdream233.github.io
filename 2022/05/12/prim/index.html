@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="UnionFind, Blog">
+    <meta name="keywords" content="Prim算法, Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>UnionFind | Blog</title>
+    <title>Prim算法 | Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -312,12 +312,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">UnionFind</h1>
+                    <h1 class="description center-align post-title">Prim算法</h1>
                 </div>
             </div>
         </div>
@@ -437,6 +437,14 @@
                                 <span class="chip bg-color">Algorithm</span>
                             </a>
                         
+                            <a href="/tags/%E5%9B%BE/">
+                                <span class="chip bg-color">图</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">
+                                <span class="chip bg-color">最小生成树</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -449,7 +457,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-28
+                    2022-05-12
                 </div>
                 
 
@@ -470,9 +478,9 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Union-Find"><a href="#Union-Find" class="headerlink" title="Union-Find"></a>Union-Find</h1><h2 id="并查集通常包含两种操作"><a href="#并查集通常包含两种操作" class="headerlink" title="并查集通常包含两种操作:"></a>并查集通常包含两种操作:</h2><h3 id="1-查找-Find-：查询两个元素是否在同一个集合中"><a href="#1-查找-Find-：查询两个元素是否在同一个集合中" class="headerlink" title="1. 查找(Find)：查询两个元素是否在同一个集合中"></a>1. 查找(Find)：查询两个元素是否在同一个集合中</h3><figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">Find</span><span class="params">(<span class="type">int</span> p)</span> </span>{</span><br><span class="line">   <span class="comment">//*递归查找根编号并进行路径压缩 当传入数值与编号相同时结束递归</span></span><br><span class="line">   <span class="keyword">if</span> (p != ids[p]) ids[p] = <span class="built_in">Find</span>(ids[p]);</span><br><span class="line">   <span class="keyword">return</span> ids[p];</span><br><span class="line"> }</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="2-合并-Union-：把两个不相交的集合合并为一个集合"><a href="#2-合并-Union-：把两个不相交的集合合并为一个集合" class="headerlink" title="2. 合并(Union)：把两个不相交的集合合并为一个集合"></a>2. 合并(Union)：把两个不相交的集合合并为一个集合</h3><figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Union</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> q)</span> </span>{</span><br><span class="line">    <span class="comment">//*先找到p和q的根编号</span></span><br><span class="line">    <span class="type">int</span> pid = <span class="built_in">Find</span>(p);</span><br><span class="line">    <span class="type">int</span> qid = <span class="built_in">Find</span>(q);</span><br><span class="line">    <span class="comment">//*编号相同 已连接 返回</span></span><br><span class="line">    <span class="keyword">if</span> (pid == qid) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">//*编号不同 修改编号来连接两点</span></span><br><span class="line">    ids[pid] = qid;</span><br><span class="line">  }</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="视频链接"><a href="#视频链接" class="headerlink" title="视频链接"></a>视频链接</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1vr4y1i76y">https://www.bilibili.com/video/BV1vr4y1i76y</a></p>
+                <h1 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h1><p>Prim算法基于贪心思想，从某个已知的顶点向外扩散，寻找最短邻边，挨个将顶点加入最小生成树集，直到将所有顶点都加入集合中</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PrimMST</span> {</span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="type">int</span> V;</span><br><span class="line">  vector&lt;<span class="type">double</span>&gt; dist;</span><br><span class="line">  vector&lt;<span class="type">bool</span>&gt; marked;</span><br><span class="line">  vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">//*邻接矩阵的二维数组</span></span><br><span class="line">  vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; edges;</span><br><span class="line">  vector&lt;string&gt; vertexList;</span><br><span class="line">  <span class="built_in">PrimMST</span>(Graph_Matrix G) {</span><br><span class="line">    edges = G.edges;</span><br><span class="line">    <span class="keyword">this</span>-&gt;V = G.<span class="built_in">getNumOfVertex</span>();</span><br><span class="line">    <span class="keyword">this</span>-&gt;vertexList = G.vertexList;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; V; i++) marked.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">  }</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">prim</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="comment">//*rec记录找到的最短边顶点的下标</span></span><br><span class="line">    <span class="type">int</span> rec = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//*res计算最小生成树总权值</span></span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//*标记已划入集合的顶点</span></span><br><span class="line">    marked[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//*先将源点加入路径中</span></span><br><span class="line">    path.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">//*初始状态 到所有顶点距离为INF</span></span><br><span class="line">    <span class="comment">//*先从某个源点开始 设置该源点到各顶点的距离</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; V; i++) dist.<span class="built_in">push_back</span>(edges[<span class="number">0</span>][i]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//!core</span></span><br><span class="line">    <span class="comment">//*共n个顶点 最多有n-1条边 所以循环n-1次</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; V - <span class="number">1</span>; k++) {</span><br><span class="line">      <span class="comment">//*用min寻找最短路径 初始为INF</span></span><br><span class="line">      <span class="type">int</span> min = INF;</span><br><span class="line">      <span class="comment">//*遍历所有未加入最小生成树集的节点，找出距离最小的点</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; V; i++) {</span><br><span class="line">        <span class="comment">//*如果该顶点不在最小生成树集 并且距离最小</span></span><br><span class="line">        <span class="comment">//*则更新min值 并用rec标记该点下标</span></span><br><span class="line">        <span class="keyword">if</span> (!marked[i] &amp;&amp; min &gt; dist[i]) {</span><br><span class="line">          min = dist[i];</span><br><span class="line">          rec = i;</span><br><span class="line">        }</span><br><span class="line">      }</span><br><span class="line">      <span class="comment">//*path数组记录路径添加顺序</span></span><br><span class="line">      path.<span class="built_in">push_back</span>(rec);</span><br><span class="line">      <span class="comment">//*将刚才找到的顶点加入最小生成树集</span></span><br><span class="line">      marked[rec] = <span class="number">1</span>;</span><br><span class="line">      <span class="comment">//*增加权值</span></span><br><span class="line">      res += dist[rec];</span><br><span class="line">      <span class="comment">//*更新所有不在最小路径集中节点的最短距离</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; V; j++) {</span><br><span class="line">        <span class="comment">//*若点已在最小生成树集中 则该点到其他顶点的距离在当前状态下一定为最小值 不用再次查找</span></span><br><span class="line">        <span class="comment">//*只需遍历并更新集合外的顶点距离</span></span><br><span class="line">        <span class="comment">//*dist[j]:最小生成树集中所有点到下标为j的点的最短距离</span></span><br><span class="line">        <span class="comment">//*edges[rec][j]:刚才找到下标为rec的点到下标为j的点的距离</span></span><br><span class="line">        <span class="keyword">if</span> (!marked[j] &amp;&amp; dist[j] &gt; edges[rec][j]) dist[j] = edges[rec][j];</span><br><span class="line">      }</span><br><span class="line">    }</span><br><span class="line">  }</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">showPath</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i : path) {</span><br><span class="line">      cout &lt;&lt; vertexList[path[i]] &lt;&lt; <span class="string">" -&gt; "</span>;</span><br><span class="line">    }</span><br><span class="line">    cout &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">  }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="视频链接"><a href="#视频链接" class="headerlink" title="视频链接"></a>视频链接</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1pT4y1v7Pm">https://www.bilibili.com/video/BV1pT4y1v7Pm</a></p>
 
                 
             </div>
@@ -499,7 +507,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://lostdream233.github.io/2022/04/28/unionfind/">https://lostdream233.github.io/2022/04/28/unionfind/</a>
+                    <a href="https://lostdream233.github.io/2022/05/12/prim/">https://lostdream233.github.io/2022/05/12/prim/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -539,6 +547,14 @@
                             
                                 <a href="/tags/Algorithm/">
                                     <span class="chip bg-color">Algorithm</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%9B%BE/">
+                                    <span class="chip bg-color">图</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">
+                                    <span class="chip bg-color">最小生成树</span>
                                 </a>
                             
                         </div>
@@ -582,9 +598,64 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2022/05/12/prim/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Prim算法">
+                        
+                        <span class="card-title">Prim算法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-12
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            774
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Algorithm/">
+                        <span class="chip bg-color">Algorithm</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%9B%BE/">
+                        <span class="chip bg-color">图</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">
+                        <span class="chip bg-color">最小生成树</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2022/05/12/dijkstra/">
                     <div class="card-image">
@@ -602,9 +673,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-12
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -626,51 +697,6 @@
                     
                     <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">
                         <span class="chip bg-color">最短路径</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/04/28/topologicalsorting/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="TopologicalSorting">
-                        
-                        <span class="card-title">TopologicalSorting</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-28
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            774
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Algorithms/">
-                        <span class="chip bg-color">Algorithms</span>
                     </a>
                     
                 </div>

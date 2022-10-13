@@ -668,9 +668,12 @@ mjx-container[display="true"] + br {
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                三种素性检验算法
-一、基于Fermat小定理基本原理:若为素数，，对任意的，有$$a^{p-1}\equiv 1(modp)$$
-代码实现:1234567891011bool Fermat(ZZ p,int n) {		if (!preJu
+                                # 三种素性检验算法
+一、基于Fermat小定理
+基本原理:
+若为素数，，对任意的，有 
+代码实现:
+1234567891011bool Fermat(ZZ p,int n) {		if (!preJud(p)) return false;
                             
                         </div>
                         <div class="publish-info">
@@ -713,10 +716,12 @@ mjx-container[display="true"] + br {
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                各种排序算法(Plus)
-一、快速排序冒泡排序Plus，减少了最好情况下的时间消耗。
-核心思想:每次选择一个轴值，以轴值为分界将序列一分为二，使左右子序列分别有序。不断递归即可使整个序列有序。
-代码实现:123456789101112131
+                                # 各种排序算法(Plus)
+一、快速排序
+冒泡排序Plus，减少了最好情况下的时间消耗。 ## 核心思想:
+每次选择一个轴值，以轴值为分界将序列一分为二，使左右子序列分别有序。不断递归即可使整个序列有序。
+代码实现:
+1234567891
                             
                         </div>
                         <div class="publish-info">
@@ -765,8 +770,12 @@ mjx-container[display="true"] + br {
                             
                                 各种排序算法(Basic)
 
-一、插入排序核心思想:将整个序列分为两部分:已排序序列和未排序序列。这样每次只用找到第一个比当前元素大(小)的元素即可结束该次查找。
-代码实现:123456789101112131415161718192021
+一、插入排序
+核心思想:
+将整个序列分为两部分:已排序序列和未排序序列。
+这样每次只用找到第一个比当前元素大(小)的元素即可结束该次查找。
+代码实现:
+12345678910111213141516171819
                             
                         </div>
                         <div class="publish-info">
@@ -809,8 +818,9 @@ mjx-container[display="true"] + br {
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                Prim算法Prim算法基于贪心思想，从某个已知的顶点向外扩散，寻找最短邻边，挨个将顶点加入最小生成树集，直到将所有顶点都加入集合中
-代码实现1234567891011121314151617181920212223242526272829
+                                Prim算法
+Prim算法基于贪心思想，从某个已知的顶点向外扩散，寻找最短邻边，挨个将顶点加入最小生成树集，直到将所有顶点都加入集合中
+## 代码实现 12345678910111213141516171819202122232425262
                             
                         </div>
                         <div class="publish-info">
@@ -861,7 +871,12 @@ mjx-container[display="true"] + br {
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                Dijkstra算法Dijkstra算法用于解决单源最短路径问题主要分为5个步骤1.设一个最短路径集V，保存已经找到最短路的顶点，先将起点加入集合2.将起点到所有点的距离存在dist数组里不能直接到达的点(起点与该点无边)存为无穷大3.在未
+                                Dijkstra算法
+Dijkstra算法用于解决单源最短路径问题
+主要分为5个步骤
+1.设一个最短路径集V，保存已经找到最短路的顶点，先将起点加入集合
+2.将起点到所有点的距离存在dist数组里
+不能直接到达的点(起点与该点无边)存为无穷
                             
                         </div>
                         <div class="publish-info">
@@ -912,7 +927,9 @@ mjx-container[display="true"] + br {
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                Union-Find并查集通常包含两种操作:1. 查找(Find)：查询两个元素是否在同一个集合中12345int Find(int p) {   //*递归查找根编号并进行路径压缩 当传入数值与编号相同时结束递归   if (p != i
+                                Union-Find
+## 并查集通常包含两种操作: ### 1.
+查找(Find)：查询两个元素是否在同一个集合中 12345int Find(int p) {   //*递归查找根编号并进行路径压缩 当传入数值与编号相同时结束递归   
                             
                         </div>
                         <div class="publish-info">
@@ -955,7 +972,9 @@ mjx-container[display="true"] + br {
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                RUNOOB Markdown TestHello World!
+                                RUNOOB Markdown Test
+Hello World!
+
                             
                         </div>
                         <div class="publish-info">
@@ -979,41 +998,6 @@ mjx-container[display="true"] + br {
                         </a>
                         
                     </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2022/04/28/hello-world/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                            
-                            <span class="card-title">Hello World</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-28
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                774
-                                
-                            </span>
-                        </div>
-                    </div>
-
                     
                 </div>
             </div>

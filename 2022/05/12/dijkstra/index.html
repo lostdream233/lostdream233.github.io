@@ -490,16 +490,18 @@
                 <h1 id="dijkstra算法">Dijkstra算法</h1>
 <h2 id="dijkstra算法用于解决单源最短路径问题">Dijkstra算法用于解决单源最短路径问题</h2>
 <h2 id="主要分为5个步骤">主要分为5个步骤</h2>
-<p>1.设一个最短路径集V，保存已经找到最短路的顶点，先将起点加入集合
-2.将起点到所有点的距离存在dist数组里
-不能直接到达的点(起点与该点无边)存为无穷大
-3.在未被划入最短路径集的dis数组中找一个最小值
-当前值一定是起点到该点的最短路，将该点加入集合 4.遍历其他的点
-如果它们通过这个最短的点作为中转，比源点直接到达短
-就替换这些顶点到源点的dist值(松弛操作)
-5.重复步骤3、4，直至V集合包含所有顶点
-最终可得源点s的最小生成树，dist数组存放源点到各点的最短路径 ## 代码实现
-</p><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">class Dijkstra {
+<p>1.设一个最短路径集V，保存已经找到最短路的顶点，先将起点加入集合</p>
+<p>2.将起点到所有点的距离存在dist数组里</p>
+<p>不能直接到达的点(起点与该点无边)存为无穷大</p>
+<p>3.在未被划入最短路径集的dis数组中找一个最小值</p>
+<p>当前值一定是起点到该点的最短路，将该点加入集合</p>
+<p>4.遍历其他的点</p>
+<p>如果它们通过这个最短的点作为中转，比源点直接到达短</p>
+<p>就替换这些顶点到源点的dist值(松弛操作)</p>
+<p>5.重复步骤3、4，直至V集合包含所有顶点</p>
+<p>最终可得源点s的最小生成树，dist数组存放源点到各点的最短路径</p>
+<h2 id="代码实现">代码实现</h2>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">class Dijkstra {
  public:
   //*源点s
   int s;
@@ -547,8 +549,12 @@
     }
   }
   double getRes(int n) { return dist[n - 1]; }
-};<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre> # 注意 Dijkstra算法无法解决带环或带负权值的问题 # 视频链接
-https://www.bilibili.com/video/BV1aA4y197FP<p></p>
+};
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="注意">注意</h1>
+<p>Dijkstra算法无法解决带环或带负权值的问题</p>
+<h1 id="视频链接">视频链接</h1>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1aA4y197FP" class="uri">https://www.bilibili.com/video/BV1aA4y197FP</a></p>
 
                 
             </div>

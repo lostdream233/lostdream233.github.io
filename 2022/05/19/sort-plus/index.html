@@ -486,8 +486,9 @@
                 <h1 id="各种排序算法plus">各种排序算法(Plus)</h1>
 <hr>
 <h1 id="一快速排序">一、快速排序</h1>
-<p>冒泡排序Plus，减少了最好情况下的时间消耗。 ## 核心思想:
-每次选择一个轴值，以轴值为分界将序列一分为二，使左右子序列分别有序。不断递归即可使整个序列有序。</p>
+<p>冒泡排序Plus，减少了最好情况下的时间消耗。</p>
+<h2 id="核心思想">核心思想:</h2>
+<p>每次选择一个轴值，以轴值为分界将序列一分为二，使左右子序列分别有序。不断递归即可使整个序列有序。</p>
 <h2 id="代码实现">代码实现:</h2>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">vector&lt;int&gt; SelectionSort(vector&lt;int&gt; nums) {
   int n = nums.size();
@@ -503,14 +504,15 @@
   }
   return nums;
 }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>由于使用递归的方法，快排需要一定的空间消耗。平均空间复杂度为O(nlogn),最差情况下空间复杂度达到O(n),若不进行轴值选择的优化容易造成堆栈溢出。
-快排的平均复杂度为O(nlogn),在最差情况下快排退化为冒泡，时间复杂度为O(n²)。</p>
+<p>由于使用递归的方法，快排需要一定的空间消耗。平均空间复杂度为O(nlogn),最差情况下空间复杂度达到O(n),若不进行轴值选择的优化容易造成堆栈溢出。</p>
+<p>快排的平均复杂度为O(nlogn),在最差情况下快排退化为冒泡，时间复杂度为O(n²)。</p>
 <hr>
 <h1 id="二堆排序">二、堆排序</h1>
-<p>选择排序Plus,大幅缩减了时间复杂度。 ## 核心思想:
-利用堆的数据结构，先建立一个有序堆，然后两个步骤循环:
-1.交换树的根节点和最后一个节点 并固定最大元素 2.对根节点进行下沉操作
-使堆回到正确顺序</p>
+<p>选择排序Plus,大幅缩减了时间复杂度。</p>
+<h2 id="核心思想-1">核心思想:</h2>
+<p>利用堆的数据结构，先建立一个有序堆，然后两个步骤循环:</p>
+<p>1.交换树的根节点和最后一个节点 并固定最大元素</p>
+<p>2.对根节点进行下沉操作 使堆回到正确顺序</p>
 <h2 id="代码实现-1">代码实现:</h2>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">class HeapSort {
  public:
@@ -556,9 +558,9 @@
 <p>堆排在各种情况下时间复杂度都为O(nlogn),直接从选择排序的O(n²)缩短到O(nlogn),神中神。</p>
 <hr>
 <h1 id="三希尔排序">三、希尔排序</h1>
-<p>插入排序Plus，不再是一个个地进行挪位、插入，而是将数组分为几个子序列，跳跃性地进行排序。
-## 核心思想:
-将数组分为几个子序列，每次对子序列进行插入排序，最终再对已经基本有序的整个序列进行插入排序。</p>
+<p>插入排序Plus，不再是一个个地进行挪位、插入，而是将数组分为几个子序列，跳跃性地进行排序。</p>
+<h2 id="核心思想-2">核心思想:</h2>
+<p>将数组分为几个子序列，每次对子序列进行插入排序，最终再对已经基本有序的整个序列进行插入排序。</p>
 <h2 id="代码实现-2">代码实现:</h2>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">int* ShellSort_Swap(int nums[],int n) {
   //*初始步长为排序序列的长度
@@ -582,7 +584,7 @@
 <p>比原版的插入排序快了很多，不过在最差情况下和直接插入一样。时间复杂度与选定的步长相关，不稳定。</p>
 <hr>
 <h1 id="四归并排序">四、归并排序</h1>
-<h2 id="核心思想">核心思想:</h2>
+<h2 id="核心思想-3">核心思想:</h2>
 <p>使用二分的方法，将数组拆解至最小，再将这些小数组逐次归并，最终就可得到有序数组。</p>
 <h2 id="代码实现-3">代码实现:</h2>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">class Merge {
@@ -639,9 +641,9 @@
 <p>归并排序时间复杂度也都为O(nlogn)，但需要创建相应的辅助数组，空间复杂度为O(n)，相比于堆排好处是稳定。</p>
 <hr>
 <h1 id="五基数排序">五、基数排序</h1>
-<p>桶排序Plus，小幅增加了平均时间复杂度，但巨幅缩减了最坏情况下的时间和空间复杂度，让对大量数据进行排序成为可能。
-## 核心思想:
-桶排序需要max个桶，基数排序通过将max进行位数的拆分，总共只需要10个桶(0~9)。每次对相应位数进行桶排序，之后依次取出，最终可使整个数组有序。</p>
+<p>桶排序Plus，小幅增加了平均时间复杂度，但巨幅缩减了最坏情况下的时间和空间复杂度，让对大量数据进行排序成为可能。</p>
+<h2 id="核心思想-4">核心思想:</h2>
+<p>桶排序需要max个桶，基数排序通过将max进行位数的拆分，总共只需要10个桶(0~9)。每次对相应位数进行桶排序，之后依次取出，最终可使整个数组有序。</p>
 <h2 id="代码实现-4">代码实现:</h2>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">void RadixSort(vector&lt;int&gt;&amp; nums) {
   //*先找出最大的数

@@ -480,13 +480,18 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="union-find">Union-Find</h1>
-<p>## 并查集通常包含两种操作: ### 1.
-查找(Find)：查询两个元素是否在同一个集合中 </p><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">int Find(int p) {
+<h2 id="并查集通常包含两种操作">并查集通常包含两种操作:</h2>
+<h3 id="查找find查询两个元素是否在同一个集合中">1.
+查找(Find)：查询两个元素是否在同一个集合中</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">int Find(int p) {
    //*递归查找根编号并进行路径压缩 当传入数值与编号相同时结束递归
    if (p != ids[p]) ids[p] = Find(ids[p]);
    return ids[p];
- }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre> ### 2.
-合并(Union)：把两个不相交的集合合并为一个集合 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">void Union(int p, int q) {
+ }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="合并union把两个不相交的集合合并为一个集合">2.
+合并(Union)：把两个不相交的集合合并为一个集合</h3>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">
+void Union(int p, int q) {
     //*先找到p和q的根编号
     int pid = Find(p);
     int qid = Find(q);
@@ -494,8 +499,9 @@
     if (pid == qid) return;
     //*编号不同 修改编号来连接两点
     ids[pid] = qid;
-  }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre> # 视频链接
-<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1vr4y1i76y" class="uri">https://www.bilibili.com/video/BV1vr4y1i76y</a><p></p>
+  }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="视频链接">视频链接</h1>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1vr4y1i76y" class="uri">https://www.bilibili.com/video/BV1vr4y1i76y</a></p>
 
                 
             </div>

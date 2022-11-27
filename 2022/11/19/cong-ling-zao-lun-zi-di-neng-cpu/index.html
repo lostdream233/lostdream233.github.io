@@ -143,7 +143,8 @@ mjx-container[display="true"] {
 mjx-container[display="true"] + br {
   display: none;
 }
-</style></head>
+</style><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -586,6 +587,9 @@ mjx-container[display="true"] + br {
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -617,22 +621,286 @@ R0，R1，R2 分别对应二进制地址码 00、01、10。</p>
 <h1 id="二子模块">二、子模块</h1>
 <h2 id="加法器1位8位">1、加法器（1位、8位）</h2>
 <h3 id="位加法器">（1） 1位加法器</h3>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">module adder(</span><br><span class="line">    input a,  		// 1位二进制加数</span><br><span class="line">    input b,      // 1位二进制加数</span><br><span class="line">    input cin, 		// 低位来的进位信号</span><br><span class="line">    output cout, 	// 向高位的进位信号</span><br><span class="line">    output sum 		// 1位和数</span><br><span class="line">    );</span><br><span class="line">    </span><br><span class="line">    assign cout = (a&amp;b) | (a&amp;cin) | (b&amp;cin);  	// 当三个输入其中两个为1时，产生进位</span><br><span class="line">    assign sum = a^b^cin;                       // 和数等于三个输入异或的值</span><br><span class="line">    </span><br><span class="line">endmodule</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">module adder(
+    input a,  		// 1位二进制加数
+    input b,      // 1位二进制加数
+    input cin, 		// 低位来的进位信号
+    output cout, 	// 向高位的进位信号
+    output sum 		// 1位和数
+    );
+    
+    assign cout = (a&amp;b) | (a&amp;cin) | (b&amp;cin);  	// 当三个输入其中两个为1时，产生进位
+    assign sum = a^b^cin;                       // 和数等于三个输入异或的值
+    
+endmodule
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="位加法器减法器">（2） 8位加法器(减法器)</h3>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">module adder_8(</span><br><span class="line">    input [7:0] a,      //八位有符号数补码</span><br><span class="line">    input [7:0] b,      //八位有符号数补码</span><br><span class="line">    input cin,          //低位来的进位信号</span><br><span class="line">    input operator,     //决定加法还是减法。 0表示加法，1表示减法</span><br><span class="line">    output [7:0] res</span><br><span class="line">    );</span><br><span class="line">    </span><br><span class="line">    wire cin_pre = cin ^ operator;</span><br><span class="line">    wire [7:0] b_pre =  b ^ {8{operator}} ;</span><br><span class="line">    </span><br><span class="line">    //八位加法</span><br><span class="line">    wire c0,c1,c2,c3,c4,c5,c6,cf;</span><br><span class="line">    adder U0(a[0],b_pre[0],cin_pre,c0,res[0]);</span><br><span class="line">    adder U1(a[1],b_pre[1],c0,c1,res[1]);</span><br><span class="line">    adder U2(a[2],b_pre[2],c1,c2,res[2]);</span><br><span class="line">    adder U3(a[3],b_pre[3],c2,c3,res[3]);</span><br><span class="line">    adder U4(a[4],b_pre[4],c3,c4,res[4]);</span><br><span class="line">    adder U5(a[5],b_pre[5],c4,c5,res[5]);</span><br><span class="line">    adder U6(a[6],b_pre[6],c5,c6,res[6]);</span><br><span class="line">    adder U7(a[7],b_pre[7],c6,cf,res[7]);</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">module adder_8(
+    input [7:0] a,      //八位有符号数补码
+    input [7:0] b,      //八位有符号数补码
+    input cin,          //低位来的进位信号
+    input operator,     //决定加法还是减法。 0表示加法，1表示减法
+    output [7:0] res
+    );
+    
+    wire cin_pre = cin ^ operator;
+    wire [7:0] b_pre =  b ^ {8{operator}} ;
+    
+    //八位加法
+    wire c0,c1,c2,c3,c4,c5,c6,cf;
+    adder U0(a[0],b_pre[0],cin_pre,c0,res[0]);
+    adder U1(a[1],b_pre[1],c0,c1,res[1]);
+    adder U2(a[2],b_pre[2],c1,c2,res[2]);
+    adder U3(a[3],b_pre[3],c2,c3,res[3]);
+    adder U4(a[4],b_pre[4],c3,c4,res[4]);
+    adder U5(a[5],b_pre[5],c4,c5,res[5]);
+    adder U6(a[6],b_pre[6],c5,c6,res[6]);
+    adder U7(a[7],b_pre[7],c6,cf,res[7]);
+    
+endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="位乘法器">2、8位乘法器</h2>
 <p>由于不能使用+，只能采取最简朴的移位加法进行乘法计算。<br>
 穷举弱智，但有用。</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">module mul_8(</span><br><span class="line">    input [7:0] a, </span><br><span class="line">    input [7:0] b, </span><br><span class="line">    output [7:0] res // 乘积输出 res</span><br><span class="line">    );</span><br><span class="line">    </span><br><span class="line">    //判断a,b的符号位</span><br><span class="line">    wire a_sign = a[7];</span><br><span class="line">    wire b_sign = b[7];</span><br><span class="line">    //a,b符号位不同则结果取反+1</span><br><span class="line">    wire res_sign = a_sign^b_sign;</span><br><span class="line">    //计算a,b的取反+1</span><br><span class="line">    wire [7:0] a_x, b_x;</span><br><span class="line">    adder_8 X1(~a, 1, 1'b0, 1'b0, a_x);</span><br><span class="line">    adder_8 X2(~b, 1, 1'b0, 1'b0, b_x);</span><br><span class="line">    //为负数则取反+1</span><br><span class="line">    wire [7:0] a_pre = a_sign ? a_x : a;</span><br><span class="line">    wire [7:0] b_pre = b_sign ? b_x : b;</span><br><span class="line">    </span><br><span class="line">    //计算被乘数所有移位的结果</span><br><span class="line">    wire [7:0] B0,B1,B2,B3,B4,B5,B6,B7;</span><br><span class="line">    assign B0 = b_pre[0] ? a_pre : 0;</span><br><span class="line">    assign B1 = b_pre[1] ? a_pre&lt;&lt;1 : 0;</span><br><span class="line">    assign B2 = b_pre[2] ? a_pre&lt;&lt;2 : 0;</span><br><span class="line">    assign B3 = b_pre[3] ? a_pre&lt;&lt;3 : 0;</span><br><span class="line">    assign B4 = b_pre[4] ? a_pre&lt;&lt;4 : 0;</span><br><span class="line">    assign B5 = b_pre[5] ? a_pre&lt;&lt;5 : 0;</span><br><span class="line">    assign B6 = b_pre[6] ? a_pre&lt;&lt;6 : 0;</span><br><span class="line">    assign B7 = b_pre[7] ? a_pre&lt;&lt;7 : 0;</span><br><span class="line">    </span><br><span class="line">    //将所有移位结果累加</span><br><span class="line">    wire [7:0] T0,T1,T2,T3,T4,T5,T6,T7;</span><br><span class="line">    adder_8 U0(0, B0, 1'b0, 1'b0, T0);</span><br><span class="line">    adder_8 U1(T0, B1, 1'b0, 1'b0, T1);</span><br><span class="line">    adder_8 U2(T1, B2, 1'b0, 1'b0, T2);</span><br><span class="line">    adder_8 U3(T2, B3, 1'b0, 1'b0, T3);</span><br><span class="line">    adder_8 U4(T3, B4, 1'b0, 1'b0, T4);</span><br><span class="line">    adder_8 U5(T4, B5, 1'b0, 1'b0, T5);</span><br><span class="line">    adder_8 U6(T5, B6, 1'b0, 1'b0, T6);</span><br><span class="line">    adder_8 U7(T6, B7, 1'b0, 1'b0, T7);</span><br><span class="line">	</span><br><span class="line">    //判断结果的符号</span><br><span class="line">    wire [7:0] T7_x;</span><br><span class="line">    adder_8 X3(~T7, 1, 1'b0, 1'b0, T7_x);</span><br><span class="line">    assign res = res_sign ? T7_x : T7;</span><br><span class="line">   </span><br><span class="line">endmodule</span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">module mul_8(
+    input [7:0] a, 
+    input [7:0] b, 
+    output [7:0] res // 乘积输出 res
+    );
+    
+    //判断a,b的符号位
+    wire a_sign = a[7];
+    wire b_sign = b[7];
+    //a,b符号位不同则结果取反+1
+    wire res_sign = a_sign^b_sign;
+    //计算a,b的取反+1
+    wire [7:0] a_x, b_x;
+    adder_8 X1(~a, 1, 1'b0, 1'b0, a_x);
+    adder_8 X2(~b, 1, 1'b0, 1'b0, b_x);
+    //为负数则取反+1
+    wire [7:0] a_pre = a_sign ? a_x : a;
+    wire [7:0] b_pre = b_sign ? b_x : b;
+    
+    //计算被乘数所有移位的结果
+    wire [7:0] B0,B1,B2,B3,B4,B5,B6,B7;
+    assign B0 = b_pre[0] ? a_pre : 0;
+    assign B1 = b_pre[1] ? a_pre&lt;&lt;1 : 0;
+    assign B2 = b_pre[2] ? a_pre&lt;&lt;2 : 0;
+    assign B3 = b_pre[3] ? a_pre&lt;&lt;3 : 0;
+    assign B4 = b_pre[4] ? a_pre&lt;&lt;4 : 0;
+    assign B5 = b_pre[5] ? a_pre&lt;&lt;5 : 0;
+    assign B6 = b_pre[6] ? a_pre&lt;&lt;6 : 0;
+    assign B7 = b_pre[7] ? a_pre&lt;&lt;7 : 0;
+    
+    //将所有移位结果累加
+    wire [7:0] T0,T1,T2,T3,T4,T5,T6,T7;
+    adder_8 U0(0, B0, 1'b0, 1'b0, T0);
+    adder_8 U1(T0, B1, 1'b0, 1'b0, T1);
+    adder_8 U2(T1, B2, 1'b0, 1'b0, T2);
+    adder_8 U3(T2, B3, 1'b0, 1'b0, T3);
+    adder_8 U4(T3, B4, 1'b0, 1'b0, T4);
+    adder_8 U5(T4, B5, 1'b0, 1'b0, T5);
+    adder_8 U6(T5, B6, 1'b0, 1'b0, T6);
+    adder_8 U7(T6, B7, 1'b0, 1'b0, T7);
+	
+    //判断结果的符号
+    wire [7:0] T7_x;
+    adder_8 X3(~T7, 1, 1'b0, 1'b0, T7_x);
+    assign res = res_sign ? T7_x : T7;
+   
+endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="slt模块">3、SLT模块</h2>
 <p>先计算两数相减的结果，然后根据结果的符号位判断大小。</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">module slt(</span><br><span class="line">    input [7:0] a,</span><br><span class="line">    input [7:0] b,</span><br><span class="line">    output jud</span><br><span class="line">    );</span><br><span class="line">    wire [7:0] res_sub;</span><br><span class="line">    adder_8(a, b, 1'b0, 1'b1, res_sub);</span><br><span class="line">    </span><br><span class="line">    assign jud = res_sub[7] == 1'b0 ? 1'b0 : 1'b1;</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">module slt(
+    input [7:0] a,
+    input [7:0] b,
+    output jud
+    );
+    wire [7:0] res_sub;
+    adder_8(a, b, 1'b0, 1'b1, res_sub);
+    
+    assign jud = res_sub[7] == 1'b0 ? 1'b0 : 1'b1;
+    
+endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="十进制信号灯">4、十进制信号灯</h2>
 <p>忙死了懒得看了，回头再补(。</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">module bin2dec (</span><br><span class="line">    input clk,          //时钟</span><br><span class="line">    input [7:0] n,</span><br><span class="line">    output reg [7:0] led_id,</span><br><span class="line">    output reg [6:0] out_led</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">parameter CLK_COUNT = 249999;//时钟计数上限</span><br><span class="line">reg [31:0] count;//计数</span><br><span class="line">reg [1:0] id;//id0~3对应左到右四个数码管</span><br><span class="line">wire flag;  //flag标记补码是否表示负数</span><br><span class="line">assign flag = n[7];</span><br><span class="line"></span><br><span class="line">//8位2进制，十进制至多3位</span><br><span class="line">reg [7:0] n1;    //百位</span><br><span class="line">reg [7:0] n2;    //十位</span><br><span class="line">reg [7:0] n3;    //个位</span><br><span class="line">reg [7:0] abs;  </span><br><span class="line"></span><br><span class="line">always @(*) begin</span><br><span class="line">    case(flag) //求正数的个十百位</span><br><span class="line">    1'b0:</span><br><span class="line">		begin</span><br><span class="line">		   n1 = n / 100 % 10;</span><br><span class="line">		   n2 = n / 10 % 10;</span><br><span class="line">		   n3 = n % 10;</span><br><span class="line">		end</span><br><span class="line">    1'b1:</span><br><span class="line">		begin</span><br><span class="line">		   abs=(~n)+1;  //求负数的个十百位</span><br><span class="line">		   n1 = abs / 100 % 10;        </span><br><span class="line">		   n2 = abs / 10 % 10;        </span><br><span class="line">		   n3 = abs % 10;</span><br><span class="line">		end</span><br><span class="line">    endcase</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">always @ (posedge clk) begin //时钟上升沿 </span><br><span class="line">//根据时钟信号控制切换显示的数码管</span><br><span class="line">    if (count == CLK_COUNT) begin</span><br><span class="line">       count &lt;= 0;</span><br><span class="line">       id &lt;= (id + 1); //切换</span><br><span class="line">    end</span><br><span class="line">    else count &lt;= count+1;</span><br><span class="line">end</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line">   //选择灯，显示数字</span><br><span class="line">always @(id) begin        </span><br><span class="line">    if (id == 0) begin           </span><br><span class="line">        led_id = 8'b1111_0111;//最左端灯亮</span><br><span class="line">        if(flag) out_led = 7'b1111110;//负号</span><br><span class="line">        else out_led = 7'b1111111;//不显示</span><br><span class="line">    end</span><br><span class="line">    else if (id == 1) begin</span><br><span class="line">        led_id = 8'b1111_1011;</span><br><span class="line">        case(n1)</span><br><span class="line">            4'b0000: out_led = 7'b0000001;    //0</span><br><span class="line">            4'b0001: out_led = 7'b1001111;    //1</span><br><span class="line">            4'b0010: out_led = 7'b0010010;    //2</span><br><span class="line">            4'b0011: out_led = 7'b0000110;    //3</span><br><span class="line">            4'b0100: out_led = 7'b1001100;    //4</span><br><span class="line">            4'b0101: out_led = 7'b0100100;    //5</span><br><span class="line">            4'b0110: out_led = 7'b0100000;    //6</span><br><span class="line">            4'b0111: out_led = 7'b0001111;    //7</span><br><span class="line">            4'b1000: out_led = 7'b0000000;    //8</span><br><span class="line">            4'b1001: out_led = 7'b0000100;    //9</span><br><span class="line">        endcase</span><br><span class="line">    end</span><br><span class="line">    else if (id == 2) begin</span><br><span class="line">        led_id = 8'b1111_1101;</span><br><span class="line">        case(n2)</span><br><span class="line">            4'b0000: out_led = 7'b0000001;    //0</span><br><span class="line">            4'b0001: out_led = 7'b1001111;    //1</span><br><span class="line">            4'b0010: out_led = 7'b0010010;    //2</span><br><span class="line">            4'b0011: out_led = 7'b0000110;    //3</span><br><span class="line">            4'b0100: out_led = 7'b1001100;    //4</span><br><span class="line">            4'b0101: out_led = 7'b0100100;    //5</span><br><span class="line">            4'b0110: out_led = 7'b0100000;    //6</span><br><span class="line">            4'b0111: out_led = 7'b0001111;    //7</span><br><span class="line">            4'b1000: out_led = 7'b0000000;    //8</span><br><span class="line">            4'b1001: out_led = 7'b0000100;    //9</span><br><span class="line">         endcase</span><br><span class="line">    end</span><br><span class="line">    else if (id == 3) begin</span><br><span class="line">        led_id = 8'b1111_1110;</span><br><span class="line">		case(n3)</span><br><span class="line">			4'b0000: out_led = 7'b0000001;    //0</span><br><span class="line">			4'b0001: out_led = 7'b1001111;    //1</span><br><span class="line">			4'b0010: out_led = 7'b0010010;    //2</span><br><span class="line">			4'b0011: out_led = 7'b0000110;    //3</span><br><span class="line">			4'b0100: out_led = 7'b1001100;    //4</span><br><span class="line">			4'b0101: out_led = 7'b0100100;    //5</span><br><span class="line">			4'b0110: out_led = 7'b0100000;    //6</span><br><span class="line">			4'b0111: out_led = 7'b0001111;    //7</span><br><span class="line">			4'b1000: out_led = 7'b0000000;    //8</span><br><span class="line">			4'b1001: out_led = 7'b0000100;    //9</span><br><span class="line">		endcase</span><br><span class="line">    end </span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">endmodule</span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">module bin2dec (
+    input clk,          //时钟
+    input [7:0] n,
+    output reg [7:0] led_id,
+    output reg [6:0] out_led
+    );
+
+parameter CLK_COUNT = 249999;//时钟计数上限
+reg [31:0] count;//计数
+reg [1:0] id;//id0~3对应左到右四个数码管
+wire flag;  //flag标记补码是否表示负数
+assign flag = n[7];
+
+//8位2进制，十进制至多3位
+reg [7:0] n1;    //百位
+reg [7:0] n2;    //十位
+reg [7:0] n3;    //个位
+reg [7:0] abs;  
+
+always @(*) begin
+    case(flag) //求正数的个十百位
+    1'b0:
+		begin
+		   n1 = n / 100 % 10;
+		   n2 = n / 10 % 10;
+		   n3 = n % 10;
+		end
+    1'b1:
+		begin
+		   abs=(~n)+1;  //求负数的个十百位
+		   n1 = abs / 100 % 10;        
+		   n2 = abs / 10 % 10;        
+		   n3 = abs % 10;
+		end
+    endcase
+end
+
+always @ (posedge clk) begin //时钟上升沿 
+//根据时钟信号控制切换显示的数码管
+    if (count == CLK_COUNT) begin
+       count &lt;= 0;
+       id &lt;= (id + 1); //切换
+    end
+    else count &lt;= count+1;
+end
+   
+   
+   //选择灯，显示数字
+always @(id) begin        
+    if (id == 0) begin           
+        led_id = 8'b1111_0111;//最左端灯亮
+        if(flag) out_led = 7'b1111110;//负号
+        else out_led = 7'b1111111;//不显示
+    end
+    else if (id == 1) begin
+        led_id = 8'b1111_1011;
+        case(n1)
+            4'b0000: out_led = 7'b0000001;    //0
+            4'b0001: out_led = 7'b1001111;    //1
+            4'b0010: out_led = 7'b0010010;    //2
+            4'b0011: out_led = 7'b0000110;    //3
+            4'b0100: out_led = 7'b1001100;    //4
+            4'b0101: out_led = 7'b0100100;    //5
+            4'b0110: out_led = 7'b0100000;    //6
+            4'b0111: out_led = 7'b0001111;    //7
+            4'b1000: out_led = 7'b0000000;    //8
+            4'b1001: out_led = 7'b0000100;    //9
+        endcase
+    end
+    else if (id == 2) begin
+        led_id = 8'b1111_1101;
+        case(n2)
+            4'b0000: out_led = 7'b0000001;    //0
+            4'b0001: out_led = 7'b1001111;    //1
+            4'b0010: out_led = 7'b0010010;    //2
+            4'b0011: out_led = 7'b0000110;    //3
+            4'b0100: out_led = 7'b1001100;    //4
+            4'b0101: out_led = 7'b0100100;    //5
+            4'b0110: out_led = 7'b0100000;    //6
+            4'b0111: out_led = 7'b0001111;    //7
+            4'b1000: out_led = 7'b0000000;    //8
+            4'b1001: out_led = 7'b0000100;    //9
+         endcase
+    end
+    else if (id == 3) begin
+        led_id = 8'b1111_1110;
+		case(n3)
+			4'b0000: out_led = 7'b0000001;    //0
+			4'b0001: out_led = 7'b1001111;    //1
+			4'b0010: out_led = 7'b0010010;    //2
+			4'b0011: out_led = 7'b0000110;    //3
+			4'b0100: out_led = 7'b1001100;    //4
+			4'b0101: out_led = 7'b0100100;    //5
+			4'b0110: out_led = 7'b0100000;    //6
+			4'b0111: out_led = 7'b0001111;    //7
+			4'b1000: out_led = 7'b0000000;    //8
+			4'b1001: out_led = 7'b0000100;    //9
+		endcase
+    end 
+end
+
+endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <hr>
 <h1 id="三cpu主模块">三、CPU主模块</h1>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">module CPU(</span><br><span class="line">    input store,            //判断是否将结果存储到R2</span><br><span class="line">    input clk,          		//时钟信号</span><br><span class="line">    input rst,          		//置位信号</span><br><span class="line">    input en,           		//开关</span><br><span class="line">    input [7:0] op,     		//操作码   </span><br><span class="line">    output [7:0] led_id,</span><br><span class="line">    output [6:0] out_led</span><br><span class="line">    );</span><br><span class="line">    wire [7:0] res_clk;</span><br><span class="line">    reg [7:0] res;</span><br><span class="line">    reg [7:0] MEM [2:0];    	//R0 R1 R2</span><br><span class="line">    reg [1:0] addr;         	//寄存器寻址</span><br><span class="line">    wire [7:0] A, B;         	//ALU运算中的两个操作数</span><br><span class="line">    wire [7:0] res_add,res_sub,res_mul,res_slt;</span><br><span class="line">    //取两个操作数</span><br><span class="line">    assign A = MEM[op[3:2]];</span><br><span class="line">    assign B = MEM[op[1:0]];</span><br><span class="line">    //不能在always语句内实例化</span><br><span class="line">    //提前计算加法、减法、乘法、比较的结果</span><br><span class="line">    adder_8 P0(A, B, 1'b0, 1'b0, res_add);</span><br><span class="line">    adder_8 P1(A, B, 1'b0, 1'b1, res_sub);</span><br><span class="line">    mul_8   P2(A, B, res_mul);</span><br><span class="line">    slt     P3(A, B, res_slt);</span><br><span class="line"></span><br><span class="line">    always@(op) begin</span><br><span class="line">        //置位信号 低电平清零</span><br><span class="line">        if(!rst) begin</span><br><span class="line">            MEM[0] = 0;</span><br><span class="line">            MEM[1] = 0;</span><br><span class="line">            MEM[2] = 0;</span><br><span class="line">            res = 0;</span><br><span class="line">        end  </span><br><span class="line">        //开关高电平 进行操作</span><br><span class="line">        else if(en) begin</span><br><span class="line">			//决定是否存入R2</span><br><span class="line">            if(store == 1'b1) MEM[2] = res;</span><br><span class="line">            //写</span><br><span class="line">            else if(op[7:6] == 2'b10) begin</span><br><span class="line">                //寻址</span><br><span class="line">                addr = op[5:4];</span><br><span class="line">                //符号位拓展</span><br><span class="line">                MEM[addr][3:0] = op[3:0];</span><br><span class="line">                MEM[addr][7:4] = op[3] ? 4'b1111 : 4'b0000;</span><br><span class="line">            end</span><br><span class="line">            //读</span><br><span class="line">            else if(op[7:2] == 6'b111100) begin</span><br><span class="line">                addr = op[1:0];</span><br><span class="line">                res = MEM[addr];</span><br><span class="line">            end</span><br><span class="line">            //ALU运算</span><br><span class="line">            else if(op[7:6] == 2'b00 || op[7:6] == 2'b11 || op[7:6] == 2'b10 || op[7:6] == 2'b01) begin</span><br><span class="line">                //case判断操作码</span><br><span class="line">                case(op[7:4])</span><br><span class="line">                    4'b0000: res = A &amp; B;</span><br><span class="line">                    4'b0001: res = A | B;</span><br><span class="line">                    4'b0010: res = res_add;</span><br><span class="line">                    4'b0110: res = res_sub;</span><br><span class="line">                    4'b0111: res = res_slt;</span><br><span class="line">                    4'b1100: res = ~(A | B);</span><br><span class="line">                    4'b1101: res = ~(A &amp; B);</span><br><span class="line">                    4'b1110: res = res_mul;</span><br><span class="line">                endcase     </span><br><span class="line">            end     </span><br><span class="line">        end</span><br><span class="line">        </span><br><span class="line">    end</span><br><span class="line">    </span><br><span class="line">    //根据store信号决定输出</span><br><span class="line">    assign res_clk = store ? MEM[2] : res;</span><br><span class="line">    //实例化信号灯模块</span><br><span class="line">    bin2dec LED(clk, res_clk, led_id, out_led);</span><br><span class="line">    </span><br><span class="line">endmodule</span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">module CPU(
+    input store,            //判断是否将结果存储到R2
+    input clk,          		//时钟信号
+    input rst,          		//置位信号
+    input en,           		//开关
+    input [7:0] op,     		//操作码   
+    output [7:0] led_id,
+    output [6:0] out_led
+    );
+    wire [7:0] res_clk;
+    reg [7:0] res;
+    reg [7:0] MEM [2:0];    	//R0 R1 R2
+    reg [1:0] addr;         	//寄存器寻址
+    wire [7:0] A, B;         	//ALU运算中的两个操作数
+    wire [7:0] res_add,res_sub,res_mul,res_slt;
+    //取两个操作数
+    assign A = MEM[op[3:2]];
+    assign B = MEM[op[1:0]];
+    //不能在always语句内实例化
+    //提前计算加法、减法、乘法、比较的结果
+    adder_8 P0(A, B, 1'b0, 1'b0, res_add);
+    adder_8 P1(A, B, 1'b0, 1'b1, res_sub);
+    mul_8   P2(A, B, res_mul);
+    slt     P3(A, B, res_slt);
+
+    always@(op) begin
+        //置位信号 低电平清零
+        if(!rst) begin
+            MEM[0] = 0;
+            MEM[1] = 0;
+            MEM[2] = 0;
+            res = 0;
+        end  
+        //开关高电平 进行操作
+        else if(en) begin
+			//决定是否存入R2
+            if(store == 1'b1) MEM[2] = res;
+            //写
+            else if(op[7:6] == 2'b10) begin
+                //寻址
+                addr = op[5:4];
+                //符号位拓展
+                MEM[addr][3:0] = op[3:0];
+                MEM[addr][7:4] = op[3] ? 4'b1111 : 4'b0000;
+            end
+            //读
+            else if(op[7:2] == 6'b111100) begin
+                addr = op[1:0];
+                res = MEM[addr];
+            end
+            //ALU运算
+            else if(op[7:6] == 2'b00 || op[7:6] == 2'b11 || op[7:6] == 2'b10 || op[7:6] == 2'b01) begin
+                //case判断操作码
+                case(op[7:4])
+                    4'b0000: res = A &amp; B;
+                    4'b0001: res = A | B;
+                    4'b0010: res = res_add;
+                    4'b0110: res = res_sub;
+                    4'b0111: res = res_slt;
+                    4'b1100: res = ~(A | B);
+                    4'b1101: res = ~(A &amp; B);
+                    4'b1110: res = res_mul;
+                endcase     
+            end     
+        end
+        
+    end
+    
+    //根据store信号决定输出
+    assign res_clk = store ? MEM[2] : res;
+    //实例化信号灯模块
+    bin2dec LED(clk, res_clk, led_id, out_led);
+    
+endmodule<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <hr>
 <h1 id="随便写写">随便写写</h1>
 <p>硬件语言纯折磨，IE是真的难学，希望不用做嵌入式方向也能有饭吃。<br>
@@ -798,24 +1066,6 @@ Bye,Verilog.</p>
 
 
 
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
     </div>
     <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
         <div class="toc-widget card" style="background-color: white;">
@@ -921,6 +1171,18 @@ Bye,Verilog.</p>
         tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
     });
 </script>
+
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
 
 
 

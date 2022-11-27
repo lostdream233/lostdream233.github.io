@@ -143,7 +143,8 @@ mjx-container[display="true"] {
 mjx-container[display="true"] + br {
   display: none;
 }
-</style></head>
+</style><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -655,6 +656,61 @@ mjx-container[display="true"] + br {
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2022/11/26/wiener-attack-he-lian-fen-shu-gong-ji/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="Wiener-Attack和连分数攻击">
+                            
+                            <span class="card-title">Wiener-Attack和连分数攻击</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                Wiener-Attack和连分数攻击
+针对RSA小解密指数的攻击方法有很多，Wiener提出的基于连分数的攻击算法是其中的典型代表之一，当解密指数d较小时，Wiener算法可以很快速地通过e和n推断出d的值。
+
+Wiener算法原理
+设，
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-11-26
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                774
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/%E5%AF%86%E7%A0%81/">
+                            <span class="chip bg-color">密码</span>
+                        </a>
+                        
+                        <a href="/tags/%E7%BD%91%E5%AE%89/">
+                            <span class="chip bg-color">网安</span>
+                        </a>
+                        
+                        <a href="/tags/RSA/">
+                            <span class="chip bg-color">RSA</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2022/11/23/chang-yong-suan-fa/">
                         <div class="card-image">
                             
@@ -673,6 +729,8 @@ mjx-container[display="true"] + br {
 2.扩展欧几里得算法
 
 二、快速幂
+
+三、连分数转化
 
                             
                         </div>
@@ -776,7 +834,9 @@ b7b6b5b4b3b2b1b0）表示指令，与开发板上的八个开关对应。
 基本原理:
 若为素数，，对任意的，有 
 代码实现:
-1234567891011bool Fermat(ZZ p,int n) {		if (!preJud(p)) return false;	
+bool Fermat(ZZ p,int n) {
+		if (!preJud(p)) return false;
+		for (int i
                             
                         </div>
                         <div class="publish-info">
@@ -825,7 +885,7 @@ b7b6b5b4b3b2b1b0）表示指令，与开发板上的八个开关对应。
 冒泡排序Plus，减少了最好情况下的时间消耗。 ## 核心思想:
 每次选择一个轴值，以轴值为分界将序列一分为二，使左右子序列分别有序。不断递归即可使整个序列有序。
 代码实现:
-12345678910
+vector&lt;i
                             
                         </div>
                         <div class="publish-info">
@@ -880,7 +940,7 @@ b7b6b5b4b3b2b1b0）表示指令，与开发板上的八个开关对应。
 将整个序列分为两部分:已排序序列和未排序序列。
 这样每次只用找到第一个比当前元素大(小)的元素即可结束该次查找。
 代码实现:
-1234567891011121314151617181
+vector&lt;int&gt; InsertionS
                             
                         </div>
                         <div class="publish-info">
@@ -925,7 +985,10 @@ b7b6b5b4b3b2b1b0）表示指令，与开发板上的八个开关对应。
                             
                                 Prim算法
 Prim算法基于贪心思想，从某个已知的顶点向外扩散，寻找最短邻边，挨个将顶点加入最小生成树集，直到将所有顶点都加入集合中
-## 代码实现 12345678910111213141516171819202122232425262
+## 代码实现 class PrimMST {
+ private:
+  int V;
+  vector&
                             
                         </div>
                         <div class="publish-info">
@@ -1034,7 +1097,9 @@ Dijkstra算法用于解决单源最短路径问题
                             
                                 Union-Find
 ## 并查集通常包含两种操作: ### 1.
-查找(Find)：查询两个元素是否在同一个集合中 12345int Find(int p) {   //*递归查找根编号并进行路径压缩 当传入数值与编号相同时结束递归   
+查找(Find)：查询两个元素是否在同一个集合中 int Find(int p) {
+   //*递归查找根编号并进行路径压缩 当传入数值与编号相同时结束递归
+   if 
                             
                         </div>
                         <div class="publish-info">

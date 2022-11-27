@@ -31,7 +31,8 @@
 
 <meta name="generator" content="Hexo 6.1.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -478,6 +479,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -495,7 +499,55 @@
 就替换这些顶点到源点的dist值(松弛操作)
 5.重复步骤3、4，直至V集合包含所有顶点
 最终可得源点s的最小生成树，dist数组存放源点到各点的最短路径 ## 代码实现
-</p><figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Dijkstra</span> {</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">//*源点s</span></span><br><span class="line">  <span class="type">int</span> s;</span><br><span class="line">  <span class="comment">//*记录源点s到各点的最短路径</span></span><br><span class="line">  vector&lt;<span class="type">double</span>&gt; dist;</span><br><span class="line">  <span class="comment">//*记录各节点前驱节点</span></span><br><span class="line">  vector&lt;<span class="type">int</span>&gt; edgeTo;</span><br><span class="line">  <span class="comment">//*记录各节点是否已进入最短路径集V</span></span><br><span class="line">  vector&lt;<span class="type">bool</span>&gt; <span class="keyword">final</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">Dijkstra</span>(Graph&amp; G, <span class="type">int</span> v) {</span><br><span class="line">    <span class="keyword">this</span>-&gt;s = v;</span><br><span class="line">    <span class="type">int</span> m, min, j, k;</span><br><span class="line">    <span class="comment">//*初始化各数组</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= G.edges.<span class="built_in">size</span>() - <span class="number">1</span>; i++) {</span><br><span class="line">      dist.<span class="built_in">push_back</span>(G.edges[s][i]);</span><br><span class="line">      edgeTo.<span class="built_in">push_back</span>(s);</span><br><span class="line">      <span class="keyword">final</span>.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">//*将源点自身最短路径设为0，并将源点s划入最短路径集</span></span><br><span class="line">    dist[s - <span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">final</span>[s - <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//*对剩余n-1个节点进行处理</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; dist.<span class="built_in">size</span>() - <span class="number">1</span>; i++) {</span><br><span class="line">      m = <span class="number">0</span>;</span><br><span class="line">      min = INF;</span><br><span class="line">      <span class="comment">//*先从未划入最小路径集的dis数组中找一个最小值，该值一定是起点到该点的最小路径值</span></span><br><span class="line">      <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; dist.<span class="built_in">size</span>(); j++) {</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">final</span>[j] &amp;&amp; dist[j] &lt; min) {</span><br><span class="line">          min = dist[j];</span><br><span class="line">          m = j;</span><br><span class="line">        }</span><br><span class="line">      }</span><br><span class="line">      <span class="comment">//*将该点加入最小路径集</span></span><br><span class="line">      <span class="keyword">final</span>[m] = <span class="number">1</span>;</span><br><span class="line">      <span class="comment">//*遍历其他点，如果当前记录的最短路径比间接到达的路径更长，则更新最短路径值</span></span><br><span class="line">      <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; dist.<span class="built_in">size</span>(); k++) {</span><br><span class="line">        <span class="comment">//*dist[m]:从起点到m点的路径</span></span><br><span class="line">        <span class="comment">//*G.edges[m + 1][k + 1]:从m点到k点的路径</span></span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">final</span>[k] &amp;&amp; (dist[m] + G.edges[m + <span class="number">1</span>][k + <span class="number">1</span>] &lt; dist[k])) {</span><br><span class="line">          dist[k] = dist[m] + G.edges[m + <span class="number">1</span>][k + <span class="number">1</span>];</span><br><span class="line">          edgeTo[k] = m;</span><br><span class="line">        }</span><br><span class="line">      }</span><br><span class="line">    }</span><br><span class="line">  }</span><br><span class="line">  <span class="function"><span class="type">double</span> <span class="title">getRes</span><span class="params">(<span class="type">int</span> n)</span> </span>{ <span class="keyword">return</span> dist[n - <span class="number">1</span>]; }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure> # 注意 Dijkstra算法无法解决带环或带负权值的问题 # 视频链接
+</p><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">class Dijkstra {
+ public:
+  //*源点s
+  int s;
+  //*记录源点s到各点的最短路径
+  vector&lt;double&gt; dist;
+  //*记录各节点前驱节点
+  vector&lt;int&gt; edgeTo;
+  //*记录各节点是否已进入最短路径集V
+  vector&lt;bool&gt; final;
+
+  Dijkstra(Graph&amp; G, int v) {
+    this-&gt;s = v;
+    int m, min, j, k;
+    //*初始化各数组
+    for (int i = 1; i &lt;= G.edges.size() - 1; i++) {
+      dist.push_back(G.edges[s][i]);
+      edgeTo.push_back(s);
+      final.push_back(0);
+    }
+    //*将源点自身最短路径设为0，并将源点s划入最短路径集
+    dist[s - 1] = 0;
+    final[s - 1] = 1;
+    //*对剩余n-1个节点进行处理
+    for (int i = 0; i &lt; dist.size() - 1; i++) {
+      m = 0;
+      min = INF;
+      //*先从未划入最小路径集的dis数组中找一个最小值，该值一定是起点到该点的最小路径值
+      for (j = 0; j &lt; dist.size(); j++) {
+        if (!final[j] &amp;&amp; dist[j] &lt; min) {
+          min = dist[j];
+          m = j;
+        }
+      }
+      //*将该点加入最小路径集
+      final[m] = 1;
+      //*遍历其他点，如果当前记录的最短路径比间接到达的路径更长，则更新最短路径值
+      for (k = 0; k &lt; dist.size(); k++) {
+        //*dist[m]:从起点到m点的路径
+        //*G.edges[m + 1][k + 1]:从m点到k点的路径
+        if (!final[k] &amp;&amp; (dist[m] + G.edges[m + 1][k + 1] &lt; dist[k])) {
+          dist[k] = dist[m] + G.edges[m + 1][k + 1];
+          edgeTo[k] = m;
+        }
+      }
+    }
+  }
+  double getRes(int n) { return dist[n - 1]; }
+};<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre> # 注意 Dijkstra算法无法解决带环或带负权值的问题 # 视频链接
 https://www.bilibili.com/video/BV1aA4y197FP<p></p>
 
                 
@@ -667,24 +719,6 @@ https://www.bilibili.com/video/BV1aA4y197FP<p></p>
 
 
 
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
     </div>
     <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
         <div class="toc-widget card" style="background-color: white;">
@@ -783,6 +817,18 @@ https://www.bilibili.com/video/BV1aA4y197FP<p></p>
 
 </main>
 
+
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
 
 
 

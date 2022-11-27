@@ -31,7 +31,8 @@
 
 <meta name="generator" content="Hexo 6.1.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -478,6 +479,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -485,7 +489,73 @@
             <div id="articleContent">
                 <h1 id="prim算法">Prim算法</h1>
 <p>Prim算法基于贪心思想，从某个已知的顶点向外扩散，寻找最短邻边，挨个将顶点加入最小生成树集，直到将所有顶点都加入集合中
-## 代码实现 </p><figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PrimMST</span> {</span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="type">int</span> V;</span><br><span class="line">  vector&lt;<span class="type">double</span>&gt; dist;</span><br><span class="line">  vector&lt;<span class="type">bool</span>&gt; marked;</span><br><span class="line">  vector&lt;<span class="type">int</span>&gt; path;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">//*邻接矩阵的二维数组</span></span><br><span class="line">  vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; edges;</span><br><span class="line">  vector&lt;string&gt; vertexList;</span><br><span class="line">  <span class="built_in">PrimMST</span>(Graph_Matrix G) {</span><br><span class="line">    edges = G.edges;</span><br><span class="line">    <span class="keyword">this</span>-&gt;V = G.<span class="built_in">getNumOfVertex</span>();</span><br><span class="line">    <span class="keyword">this</span>-&gt;vertexList = G.vertexList;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; V; i++) marked.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">  }</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">prim</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="comment">//*rec记录找到的最短边顶点的下标</span></span><br><span class="line">    <span class="type">int</span> rec = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//*res计算最小生成树总权值</span></span><br><span class="line">    <span class="type">int</span> res = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//*标记已划入集合的顶点</span></span><br><span class="line">    marked[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//*先将源点加入路径中</span></span><br><span class="line">    path.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">//*初始状态 到所有顶点距离为INF</span></span><br><span class="line">    <span class="comment">//*先从某个源点开始 设置该源点到各顶点的距离</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; V; i++) dist.<span class="built_in">push_back</span>(edges[<span class="number">0</span>][i]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//!core</span></span><br><span class="line">    <span class="comment">//*共n个顶点 最多有n-1条边 所以循环n-1次</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; V - <span class="number">1</span>; k++) {</span><br><span class="line">      <span class="comment">//*用min寻找最短路径 初始为INF</span></span><br><span class="line">      <span class="type">int</span> min = INF;</span><br><span class="line">      <span class="comment">//*遍历所有未加入最小生成树集的节点，找出距离最小的点</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; V; i++) {</span><br><span class="line">        <span class="comment">//*如果该顶点不在最小生成树集 并且距离最小</span></span><br><span class="line">        <span class="comment">//*则更新min值 并用rec标记该点下标</span></span><br><span class="line">        <span class="keyword">if</span> (!marked[i] &amp;&amp; min &gt; dist[i]) {</span><br><span class="line">          min = dist[i];</span><br><span class="line">          rec = i;</span><br><span class="line">        }</span><br><span class="line">      }</span><br><span class="line">      <span class="comment">//*path数组记录路径添加顺序</span></span><br><span class="line">      path.<span class="built_in">push_back</span>(rec);</span><br><span class="line">      <span class="comment">//*将刚才找到的顶点加入最小生成树集</span></span><br><span class="line">      marked[rec] = <span class="number">1</span>;</span><br><span class="line">      <span class="comment">//*增加权值</span></span><br><span class="line">      res += dist[rec];</span><br><span class="line">      <span class="comment">//*更新所有不在最小路径集中节点的最短距离</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; V; j++) {</span><br><span class="line">        <span class="comment">//*若点已在最小生成树集中 则该点到其他顶点的距离在当前状态下一定为最小值 不用再次查找</span></span><br><span class="line">        <span class="comment">//*只需遍历并更新集合外的顶点距离</span></span><br><span class="line">        <span class="comment">//*dist[j]:最小生成树集中所有点到下标为j的点的最短距离</span></span><br><span class="line">        <span class="comment">//*edges[rec][j]:刚才找到下标为rec的点到下标为j的点的距离</span></span><br><span class="line">        <span class="keyword">if</span> (!marked[j] &amp;&amp; dist[j] &gt; edges[rec][j]) dist[j] = edges[rec][j];</span><br><span class="line">      }</span><br><span class="line">    }</span><br><span class="line">  }</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">showPath</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i : path) {</span><br><span class="line">      cout &lt;&lt; vertexList[path[i]] &lt;&lt; <span class="string">" -&gt; "</span>;</span><br><span class="line">    }</span><br><span class="line">    cout &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">  }</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure> 视频链接 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1pT4y1v7Pm" class="uri">https://www.bilibili.com/video/BV1pT4y1v7Pm</a><p></p>
+## 代码实现 </p><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">class PrimMST {
+ private:
+  int V;
+  vector&lt;double&gt; dist;
+  vector&lt;bool&gt; marked;
+  vector&lt;int&gt; path;
+
+ public:
+  //*邻接矩阵的二维数组
+  vector&lt;vector&lt;int&gt;&gt; edges;
+  vector&lt;string&gt; vertexList;
+  PrimMST(Graph_Matrix G) {
+    edges = G.edges;
+    this-&gt;V = G.getNumOfVertex();
+    this-&gt;vertexList = G.vertexList;
+    for (int i = 0; i &lt; V; i++) marked.push_back(0);
+  }
+  void prim() {
+    //*rec记录找到的最短边顶点的下标
+    int rec = 0;
+    //*res计算最小生成树总权值
+    int res = 0;
+    //*标记已划入集合的顶点
+    marked[0] = 1;
+    //*先将源点加入路径中
+    path.push_back(0);
+    //*初始状态 到所有顶点距离为INF
+    //*先从某个源点开始 设置该源点到各顶点的距离
+    for (int i = 0; i &lt; V; i++) dist.push_back(edges[0][i]);
+
+    //!core
+    //*共n个顶点 最多有n-1条边 所以循环n-1次
+    for (int k = 0; k &lt; V - 1; k++) {
+      //*用min寻找最短路径 初始为INF
+      int min = INF;
+      //*遍历所有未加入最小生成树集的节点，找出距离最小的点
+      for (int i = 0; i &lt; V; i++) {
+        //*如果该顶点不在最小生成树集 并且距离最小
+        //*则更新min值 并用rec标记该点下标
+        if (!marked[i] &amp;&amp; min &gt; dist[i]) {
+          min = dist[i];
+          rec = i;
+        }
+      }
+      //*path数组记录路径添加顺序
+      path.push_back(rec);
+      //*将刚才找到的顶点加入最小生成树集
+      marked[rec] = 1;
+      //*增加权值
+      res += dist[rec];
+      //*更新所有不在最小路径集中节点的最短距离
+      for (int j = 0; j &lt; V; j++) {
+        //*若点已在最小生成树集中 则该点到其他顶点的距离在当前状态下一定为最小值 不用再次查找
+        //*只需遍历并更新集合外的顶点距离
+        //*dist[j]:最小生成树集中所有点到下标为j的点的最短距离
+        //*edges[rec][j]:刚才找到下标为rec的点到下标为j的点的距离
+        if (!marked[j] &amp;&amp; dist[j] &gt; edges[rec][j]) dist[j] = edges[rec][j];
+      }
+    }
+  }
+  void showPath() {
+    for (int i : path) {
+      cout &lt;&lt; vertexList[path[i]] &lt;&lt; " -&gt; ";
+    }
+    cout &lt;&lt; '\n';
+  }
+};<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre> 视频链接 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1pT4y1v7Pm" class="uri">https://www.bilibili.com/video/BV1pT4y1v7Pm</a><p></p>
 
                 
             </div>
@@ -656,24 +726,6 @@
 
 
 
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
     </div>
     <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
         <div class="toc-widget card" style="background-color: white;">
@@ -772,6 +824,18 @@
 
 </main>
 
+
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
 
 
 

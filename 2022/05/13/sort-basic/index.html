@@ -31,7 +31,8 @@
 
 <meta name="generator" content="Hexo 6.1.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -470,6 +471,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -483,28 +487,93 @@
 <p>将整个序列分为两部分:已排序序列和未排序序列。
 这样每次只用找到第一个比当前元素大(小)的元素即可结束该次查找。</p>
 <h2 id="代码实现">代码实现:</h2>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">InsertionSort</span><span class="params">(vector&lt;<span class="type">int</span>&gt; nums)</span> </span>{</span><br><span class="line">  <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">  <span class="comment">//*rec用于记录当前元素</span></span><br><span class="line">  <span class="type">int</span> i, j, rec;</span><br><span class="line">  <span class="comment">//*第一个元素默认有序，直接从第二个元素开始排序</span></span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; n; i++) {</span><br><span class="line">    <span class="comment">//*j为当前元素的前一号元素的下标,从下标为j的元素开始寻找该元素应在的位置</span></span><br><span class="line">    j = i - <span class="number">1</span>;</span><br><span class="line">    rec = nums[i];</span><br><span class="line">    <span class="comment">//*当前面元素大于当前元素时继续循环</span></span><br><span class="line">    <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; nums[j] &gt; rec) {</span><br><span class="line">      <span class="comment">//*对前面的元素进行后移</span></span><br><span class="line">      nums[j+<span class="number">1</span>]=nums[j];</span><br><span class="line">      <span class="comment">//*指针前移</span></span><br><span class="line">      --j;</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">//*在对应位置插入rec</span></span><br><span class="line">    nums[j + <span class="number">1</span>] = rec;</span><br><span class="line">  }</span><br><span class="line">  <span class="keyword">return</span> nums;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">vector&lt;int&gt; InsertionSort(vector&lt;int&gt; nums) {
+  int n = nums.size();
+  //*rec用于记录当前元素
+  int i, j, rec;
+  //*第一个元素默认有序，直接从第二个元素开始排序
+  for (i = 1; i &lt; n; i++) {
+    //*j为当前元素的前一号元素的下标,从下标为j的元素开始寻找该元素应在的位置
+    j = i - 1;
+    rec = nums[i];
+    //*当前面元素大于当前元素时继续循环
+    while (j &gt;= 0 &amp;&amp; nums[j] &gt; rec) {
+      //*对前面的元素进行后移
+      nums[j+1]=nums[j];
+      //*指针前移
+      --j;
+    }
+    //*在对应位置插入rec
+    nums[j + 1] = rec;
+  }
+  return nums;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>插入排序平均时间复杂度为O(n²)。对已经大多数有序的序列排序效率较高，时间复杂度可达到O(n)，</p>
 <hr>
 <h1 id="二选择排序">二、选择排序</h1>
 <h2 id="核心思想-1">核心思想:</h2>
 <p>同样将序列分为已排序和未排序两部分，每次从未排序部分中找到最小(大)的元素,将其放在未排序部分的队首。</p>
 <h2 id="代码实现-1">代码实现:</h2>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">SelectionSort</span><span class="params">(vector&lt;<span class="type">int</span>&gt; nums)</span> </span>{</span><br><span class="line">  <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) {</span><br><span class="line">    <span class="comment">//*记录最小元素的下标</span></span><br><span class="line">    <span class="type">int</span> minIndex = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//*每次从未排序序列的第一个元素开始查找</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = i; j &lt; n; j++)</span><br><span class="line">      <span class="comment">//*当记录的最小元素不够小时更新最小元素下标</span></span><br><span class="line">      <span class="keyword">if</span> (nums[minIndex] &gt; nums[j]) minIndex = j;</span><br><span class="line">    <span class="comment">//*将最小元素放到未排序序列队首</span></span><br><span class="line">    <span class="built_in">swap</span>(nums, i , minIndex);</span><br><span class="line">  }</span><br><span class="line">  <span class="keyword">return</span> nums;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">vector&lt;int&gt; SelectionSort(vector&lt;int&gt; nums) {
+  int n = nums.size();
+  for (int i = 0; i &lt; n; i++) {
+    //*记录最小元素的下标
+    int minIndex = 0;
+    //*每次从未排序序列的第一个元素开始查找
+    for (int j = i; j &lt; n; j++)
+      //*当记录的最小元素不够小时更新最小元素下标
+      if (nums[minIndex] &gt; nums[j]) minIndex = j;
+    //*将最小元素放到未排序序列队首
+    swap(nums, i , minIndex);
+  }
+  return nums;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>选择排序各种情况下时间复杂度都为O(n²)。</p>
 <hr>
 <h1 id="三冒泡排序">三、冒泡排序</h1>
 <h2 id="核心思想-2">核心思想:</h2>
 <p>每次对每个相邻元素进行比较，使最大(小)的元素放在队尾，队尾元素逐渐成为有序序列。</p>
 <h2 id="代码实现-2">代码实现</h2>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">BubbleSort</span><span class="params">(vector&lt;<span class="type">int</span>&gt; nums)</span> </span>{</span><br><span class="line">  <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">  <span class="comment">//*n个元素总共需要进行n-1次比较</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i++) {</span><br><span class="line">    <span class="comment">//*队尾元素逐渐有序，内层循环次数减少</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n - <span class="number">1</span> - i; j++) {</span><br><span class="line">      <span class="comment">//*相邻元素比较</span></span><br><span class="line">      <span class="keyword">if</span> (nums[j] &gt; nums[j + <span class="number">1</span>]) <span class="built_in">swap</span>(nums, j, j + <span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">  }</span><br><span class="line">  <span class="keyword">return</span> nums;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">vector&lt;int&gt; BubbleSort(vector&lt;int&gt; nums) {
+  int n = nums.size();
+  //*n个元素总共需要进行n-1次比较
+  for (int i = 0; i &lt; n - 1; i++) {
+    //*队尾元素逐渐有序，内层循环次数减少
+    for (int j = 0; j &lt; n - 1 - i; j++) {
+      //*相邻元素比较
+      if (nums[j] &gt; nums[j + 1]) swap(nums, j, j + 1);
+    }
+  }
+  return nums;
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>冒泡排序平均时间复杂度为O(n²)。序列已大多数有序的情况下时间复杂度可达到O(n)。</p>
 <hr>
 <h1 id="四桶排序">四、桶排序</h1>
 <h2 id="核心思想-3">核心思想:</h2>
 <p>对于最大值为max的数组，创建相应长为max的辅助数组(桶)，存在对应元素时就在对应桶上插旗，最后将插有旗的桶中的数据全部取回即可。</p>
 <h2 id="代码实现-3">代码实现:</h2>
-<figure class="highlight cpp"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">BucketSort</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>{</span><br><span class="line">  <span class="comment">//*先找序列最大值 以确定桶的数量</span></span><br><span class="line">  <span class="type">int</span> max = nums[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i : nums)</span><br><span class="line">    <span class="keyword">if</span> (max &lt; i) max = i;</span><br><span class="line">  <span class="comment">//*辅助桶数组</span></span><br><span class="line">  vector&lt;<span class="type">int</span>&gt; aux;</span><br><span class="line">  aux.<span class="built_in">resize</span>(max + <span class="number">1</span>);</span><br><span class="line">  <span class="comment">//*对应位置插旗</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i : nums) aux[i]++;</span><br><span class="line">  <span class="type">int</span> j, len;</span><br><span class="line">  <span class="comment">//*从尾部开始取回 保证稳定性</span></span><br><span class="line">  <span class="keyword">for</span> (j = max, len = nums.<span class="built_in">size</span>(); j &gt;= <span class="number">0</span>; j--) {</span><br><span class="line">    <span class="comment">//*桶上有旗的情况</span></span><br><span class="line">    <span class="keyword">while</span> (aux[j]) {</span><br><span class="line">      <span class="comment">//*元素放到队尾</span></span><br><span class="line">      nums[--len] = j;</span><br><span class="line">      <span class="comment">//*拔旗</span></span><br><span class="line">      aux[j]--;</span><br><span class="line">    }</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">void BucketSort(vector&lt;int&gt;&amp; nums) {
+  //*先找序列最大值 以确定桶的数量
+  int max = nums[0];
+  for (int i : nums)
+    if (max &lt; i) max = i;
+  //*辅助桶数组
+  vector&lt;int&gt; aux;
+  aux.resize(max + 1);
+  //*对应位置插旗
+  for (int i : nums) aux[i]++;
+  int j, len;
+  //*从尾部开始取回 保证稳定性
+  for (j = max, len = nums.size(); j &gt;= 0; j--) {
+    //*桶上有旗的情况
+    while (aux[j]) {
+      //*元素放到队尾
+      nums[--len] = j;
+      //*拔旗
+      aux[j]--;
+    }
+  }
+}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>桶排序是空间换时间的经典算法，注意只能对全是正整数的数组进行排序。</p>
 
                 
@@ -672,24 +741,6 @@
 
 
 
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
     </div>
     <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
         <div class="toc-widget card" style="background-color: white;">
@@ -788,6 +839,18 @@
 
 </main>
 
+
+
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+<!-- 代码语言 -->
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+<!-- 代码块复制 -->
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+<!-- 代码块收缩 -->
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+<!-- 代码块折行 -->
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
 
 
 

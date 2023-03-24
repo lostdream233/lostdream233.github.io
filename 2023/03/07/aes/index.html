@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="计网（一）, A Blog">
+    <meta name="keywords" content="AES, A Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>计网（一） | A Blog</title>
+    <title>AES | A Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -313,12 +313,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">计网（一）</h1>
+                    <h1 class="description center-align post-title">AES</h1>
                 </div>
             </div>
         </div>
@@ -475,7 +475,33 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="aes">AES</h1>
+<hr>
+<h2 id="一四种基本运算">一、四种基本运算</h2>
+<p>1.sub_bytes 2.shift_rows 3.mix_columns 4.add_round_key</p>
+<hr>
+<h2 id="二加密流程">二、加密流程</h2>
+<p>128Bytes——10轮 192Bytes——12轮 256Bytes——14轮</p>
+<p>对AES_128 预处理：add_round_key,生成10轮子密钥 第i轮(1 =&lt; i
+&lt;=9)：sub_bytes,shift_rows,mix_columns,add_round_key
+第10轮：sub_bytes,shift_rows,add_round_key</p>
+<hr>
+<h2 id="三变换的具体操作">三、变换的具体操作</h2>
+<h3 id="sub_bytes">1.sub_bytes</h3>
+<p>(1)将输入转为8位16进制数，再将这8位拆为两个4位16进制数；
+(2)以高位为行数，低位为列数，在S盒中找到相应的数进行置换。</p>
+<h3 id="shift_rows">2.shift_rows</h3>
+<p>(1)把16字节的输入转为4x4的矩阵 (2)第1行不变 (3)第2行左移1位
+(4)第3行左移2位 (5)第4行左移3位</p>
+<h3 id="mix_column">3.mix_column</h3>
+<p>用特定的矩阵左乘state矩阵，运算规则均服从有限域上的运算规则。（见群里给的pdf）</p>
+<h3 id="add_round_key">4.add_round_key</h3>
+<p>将state和轮密钥的矩阵相应位置进行异或</p>
+<p>图解：https://zhuanlan.zhihu.com/p/375682288?utm_id=0</p>
+<hr>
+<h2 id="四密钥扩展">四、密钥扩展</h2>
+<p>照书抄，给伪代码了。</p>
+
                 
             </div>
             <hr/>
@@ -535,13 +561,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2023/03/07/ji-wang-yi/">
+                <a href="/2023/03/07/aes/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="计网（一）">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="AES">
                         
-                        <span class="card-title">计网（一）</span>
+                        <span class="card-title">AES</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
